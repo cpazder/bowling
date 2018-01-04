@@ -1,50 +1,77 @@
 <template>
-  <v-app class = "">
+  <v-app>
     <v-navigation-drawer fixed v-model="sideNav">
       <v-list>
-        <v-list-tile>
-<v-list-tile-action>
-  <v-icon left>assignment</v-icon>
-</v-list-tile-action>
-<v-list_tile-content>Schedule</v-list_tile-content>
+        <v-list-tile 
+        v-for="item in menuItems" 
+        :key="item.title"
+        router
+        :to="item.link">
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>{{ item.title }}</v-list-tile-content>
         </v-list-tile>
-                <v-list-tile>
-<v-list-tile-action>
-  <v-icon left>laptop</v-icon>
-</v-list-tile-action>
-<v-list_tile-content>Scores</v-list_tile-content>
-        </v-list-tile>
-                        <v-list-tile>
-<v-list-tile-action>
-  <v-icon left>supervisor_account</v-icon>
-</v-list-tile-action>
-<v-list_tile-content>Roster</v-list_tile-content>
-        </v-list-tile>
-
       </v-list>
-    </v-navigation-drawer >
-    <v-toolbar class = "">
-    <v-toolbar-side-icon @click.stop="sideNav = !sideNav" class="hidden-sm-and-up"></v-toolbar-side-icon>
-<v-toolbar-title>PazBowling</v-toolbar-title>
-<v-spacer></v-spacer>
-<v-toolbar-items class = "hidden-xs-only">
-<v-btn flat round><v-icon left>assignment</v-icon>Schedule</v-btn>
-<v-btn flat round><v-icon left>laptop</v-icon>Scores</v-btn>
-<v-btn flat round><v-icon left>supervisor_account</v-icon>Roster</v-btn>
-</v-toolbar-items>
-    </v-toolbar>
-   <main>
+    </v-navigation-drawer>
 
-   </main>
+    <v-toolbar dark class="purple darken-1">
+      <v-toolbar-side-icon @click.stop="sideNav = !sideNav" class="hidden-sm-and-up"></v-toolbar-side-icon>
+      <v-toolbar-title>
+        <router-link to="/" tag="span" style="cursor:pointer">PazBowling</router-link>
+        </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-xs-only">
+        <v-btn 
+        flat round v-for="item in menuItems" 
+        :key="item.title"
+        router
+        :to="item.link">
+          <v-icon left>{{ item.icon }}</v-icon>{{ item.title }}</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+    <main>
+<router-view>,
+  link: ''
+</router-view>
+    </main>
   </v-app>
 </template>
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        sideNav: false
-      }
+        sideNav: false,
+        menuItems: [{
+            icon: "assignment",
+            title: "Schedule",
+            link: '/Schedule'
+          },
+          {
+            icon: "laptop",
+            title: "Scores",
+            link: '/Scores'
+          },
+          {
+            icon: "supervisor_account",
+            title: "Roster",
+            link: '/Users'
+          },
+          {
+            icon: "face",
+            title: "Sign up",
+            link: '/Signup'
+          },
+          {
+            icon: "lock_open",
+            title: "Sign in",
+            link: '/Signin'
+          }
+        ]
+      };
     }
-  }
+  };
+
 </script>
+
