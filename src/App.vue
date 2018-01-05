@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer fixed v-model="sideNav">
+    <v-navigation-drawer fixed v-model="sideNav" temporary>
       <v-list>
         <v-list-tile 
         v-for="item in menuItems" 
@@ -43,33 +43,49 @@
     data() {
       return {
         sideNav: false,
-        menuItems: [{
-            icon: "assignment",
-            title: "Schedule",
-            link: '/Schedule'
-          },
+        
+        
+      };
+    },
+    computed: {
+      menuItems() {
+        let menuItems =  [
           {
-            icon: "laptop",
-            title: "Scores",
-            link: '/Scores'
-          },
-          {
-            icon: "supervisor_account",
-            title: "Roster",
-            link: '/Users'
-          },
-          {
-            icon: "face",
-            title: "Sign up",
+            icon: 'face',
+            title: 'Sign up',
             link: '/Signup'
           },
           {
-            icon: "lock_open",
+            icon: 'lock_open',
             title: "Sign in",
             link: '/Signin'
           }
         ]
-      };
+        if(this.userIsAuthenticated) {
+          menuItems = [
+          {
+            icon: 'assignment',
+            title: "Schedule",
+            link: '/Schedule'
+          },
+          {
+            icon: 'laptop',
+            title: 'Scores',
+            link: '/Scores'
+          },
+          {
+            icon: 'supervisor_account',
+            title: "Roster",
+            link: '/Users'
+          }
+  
+        ]
+        }
+        return menuItems
+      },
+      userIsAuthenticated () {
+        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+      }
     }
   };
 
