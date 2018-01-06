@@ -28,7 +28,7 @@ export default new Router({
       component: Addscores
     },
     {
-      path: '/Profile',
+      path: '/Users',
       name: 'Profile',
       component: Profile
     },

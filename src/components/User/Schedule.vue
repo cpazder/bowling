@@ -1,5 +1,5 @@
 <template>
   <div>
-    <p>The Add Scores Page</p>
+    <p>The Schedule Page</p>
   </div>
 </template>
