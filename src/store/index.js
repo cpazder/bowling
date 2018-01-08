@@ -16,6 +16,9 @@ export const store = new Vuex.Store({
     error: null
   },
   mutations: {
+    setLoadedScores (state, payload) {
+      state.loadedScores = payload
+    },
     setUser (state, payload) {
       state.user = payload
     },
@@ -30,6 +33,33 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    loadScores ({commit}) {
+      commit('setLoading', true)
+      firebase.database().ref('scores').once('value')
+.then((data) => {
+  const scores = []
+  const obj = data.val()
+  for (let key in obj) {
+    scores.push({
+      id: key,
+      date: obj[key].Date,
+      bowler: obj[key].Bowler,
+      gm1: obj[key].Gm1,
+      gm2: obj[key].Gm2,
+      gm3: obj[key].Gm3,
+      week: obj[key].Week
+    })
+  }
+  commit('setLoadedScores', scores)
+  commit('setLoading', false)
+})
+.catch(
+  (error) => {
+    console.log(error)
+    commit('setLoading', true)
+  }
+)
+    },
     signUserUp ({commit}, payload) {
       commit('setLoading', true)
       commit('clearError')
@@ -84,6 +114,9 @@ export const store = new Vuex.Store({
     })
   },
   getters: {
+    loadedScores (state) {
+      return state.loadedScores
+    },
     user (state) {
       return state.user
     },
