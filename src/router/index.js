@@ -7,6 +7,7 @@ import Profile from '@/components/User/Profile'
 import Signin from '@/components/User/Signin'
 import Signup from '@/components/User/Signup'
 import Schedule from '@/components/User/Schedule'
+import Scores1 from '@/components/Scores/Scores1'
 
 Vue.use(Router)
 
@@ -46,6 +47,12 @@ export default new Router({
       path: '/Schedule',
       name: 'Schedule',
       component: Schedule
+    },
+
+    {
+      path: '/Scores1',
+      name: 'Scores1',
+      component: Scores1
     }
   ],
   mode: 'history'

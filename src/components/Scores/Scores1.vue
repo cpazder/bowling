@@ -19,6 +19,7 @@
       v-bind:headers="headers"
       v-bind:items="Scores"
       v-bind:search="search"
+      :loading="loading"
       class="elevation-1"
     >
       <template slot="items" slot-scope="props">
@@ -104,8 +105,5 @@ padding:10px !important;
 
 
 </style>
-
-
-
 
 
