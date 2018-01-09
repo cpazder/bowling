@@ -5,7 +5,7 @@
 
 <div>
      <v-card-title>
-      Bowler
+      Date
       <v-spacer></v-spacer>
       <v-text-field
         append-icon="search"
@@ -17,20 +17,20 @@
     </v-card-title>
     <v-data-table
       v-bind:headers="headers"
-      v-bind:items="Scores"
+      v-bind:items="Schedule"
       v-bind:search="search"
-      :loading="loading"
       class="elevation-1"
+      hide-actions
     >
       <template slot="items" slot-scope="props">
                 <td style = "width:75px padding:10px" class="text-xs-center">
           <v-edit-dialog
             lazy
-          > {{ props.item.bowler }}
+          > {{ props.item.date }}
             <v-text-field
               slot="input"
               label="Edit"
-              v-model="props.item.bowler"
+              v-model="props.item.date"
               single-line
               counter
               :rules="[max25chars]"
@@ -38,13 +38,12 @@
           </v-edit-dialog>
         </td>
         
-        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.week }}</td>
-        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.date }}</td>
-        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.gm1 }}</td>
-        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.gm2 }}</td>
-        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.gm3 }}</td>
-        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.total }}</td>
-
+        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.bowler1 }}</td>
+        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.bowler2 }}</td>
+        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.bowler3 }}</td>
+        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.bowler4 }}</td>
+        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.bowler5 }}</td>
+        
         
       </template>
     </v-data-table>
@@ -66,22 +65,20 @@
         search: '',
         pagination: {},
       headers: [
-      {text: 'Bowler', value: 'bowler'},
-      {text: 'Week',
-      align: 'right',
-      sortable: true,
-      value: 'week'},
+      
       {text: 'Date', value: 'date', type:Date},
-      {text: 'Gm1', value: 'gm1'},
-      {text: 'Gm2', value: 'gm2'},
-      {text: 'Gm3', value: 'gm3'},
-      {text: 'Total', value: 'total'}
+      {text: 'Bowler1', value: 'bowler1'},
+      {text: 'Bowler2', value: 'bowler2'},
+      {text: 'Bowler3', value: 'bowler3'},
+      {text: 'Bowler4', value: 'bowler4'},
+      {text: 'Bowler5', value: 'bowler5'},
+
     ]
       }
     },
     computed: {
-      Scores () {
-        return this.$store.getters.loadedScores
+      Schedule () {
+        return this.$store.getters.loadedSchedule
       }
     }
 
@@ -89,21 +86,7 @@
 </script>
 
 <style>
-th.column.sortable.text-xs-right{
-  text-align:center !important;
-  padding:10px !important;
-}
-th.column.sortable.active.asc.text-xs-right{
-  max-width:50px !important;
-  padding:10px !important;
-}
 
-td.text-xs-center {
-max-width:50px !important;
-padding:10px !important;
-}
 
 
 </style>
-
-

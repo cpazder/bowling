@@ -32,6 +32,7 @@ new Vue({
         this.$store.dispatch('autoSignIn', user)
         this.$store.dispatch('fetchUserData')
         this.$store.dispatch('loadScores')
+        this.$store.dispatch('loadSchedule')
       }
     })
   }
