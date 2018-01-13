@@ -10,11 +10,11 @@ const vuexLocal = new VuexPersistence({
 })
 
 export const store = new Vuex.Store({
-         state: {
-           user: null,
-           loading: false,
-           error: null
-         },
+  state: {
+    user: null,
+    loading: false,
+    error: null
+  },
   mutations: {
     setLoadedSchedule (state, payload) {
       state.loadedSchedule = payload
@@ -22,11 +22,14 @@ export const store = new Vuex.Store({
     setLoadedScores (state, payload) {
       state.loadedScores = payload
     },
+    setLoadedProfile (state, payload) {
+      state.loadedProfile = payload
+    },
     setUser (state, payload) {
-      state.user = payload;
+      state.user = payload
     },
     setLoading (state, payload) {
-      state.loading = payload;
+      state.loading = payload
     },
     setError (state, payload) {
       state.error = payload
@@ -61,7 +64,7 @@ export const store = new Vuex.Store({
                  commit('setLoading', false)
                })
                .catch(error => {
-                 console.log(error);
+                 console.log(error)
                  commit('setLoading', true)
                })
     },
@@ -92,55 +95,81 @@ export const store = new Vuex.Store({
                  console.log(error)
                  commit('setLoading', true)
                })
-           },
-           signUserUp ({ commit }, payload) {
-             commit('setLoading', true)
-             commit('clearError')
-             firebase
-               .auth()
-               .createUserWithEmailAndPassword(
-                 payload.email,
-                 payload.password
-               )
-               .then(user => {
-                 commit('setLoading', false);
-                 const newUser = {
-                   id: user.uid
-                 }
-                 commit('setUser', newUser);
-               })
-               .catch(error => {
-                 commit('setLoading', false);
-                 commit('setError', error);
-                 console.log(error);
-               })
-           },
-           signUserIn ({ commit }, payload) {
-             commit('setLoading', true)
-             commit('clearError')
-             firebase
-               .auth()
-               .signInWithEmailAndPassword(
-                 payload.email,
-                 payload.password
-               )
-               .then(user => {
-                 commit('setLoading', false)
-                 const newUser = {
-                   id: user.uid
-                 };
-                 commit('setUser', newUser)
-               })
-               .catch(error => {
-                 commit('setLoading', false)
-                 commit('setError', error)
-                 console.log(error)
-               })
-           },
-           clearError ({ commit }) {
-             commit('clearError')
-           }
-         },
+    },
+    loadProfile ({ commit }) {
+      commit('setLoading', true)
+      firebase
+        .database()
+        .ref('roster')
+        .once('value')
+        .then(data => {
+          const profile = []
+          const obj = data.val()
+          for (let key in obj) {
+            profile.push({
+              id: key,
+              bowler: obj[key].Bowlers,
+              average: obj[key].Average,
+              phone: obj[key].PhoneNumber,
+              weeks: obj[key]['Count of Week']
+            })
+          }
+          commit('setLoadedProfile', profile)
+          commit('setLoading', false)
+        })
+        .catch(error => {
+          console.log(error)
+          commit('setLoading', true)
+        })
+    },
+    signUserUp ({ commit }, payload) {
+      commit('setLoading', true)
+      commit('clearError')
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(
+          payload.email,
+          payload.password
+        )
+        .then(user => {
+          commit('setLoading', false)
+          const newUser = {
+            id: user.uid
+          }
+          commit('setUser', newUser)
+        })
+        .catch(error => {
+          commit('setLoading', false)
+          commit('setError', error)
+          console.log(error)
+        })
+    },
+    signUserIn ({ commit }, payload) {
+      commit('setLoading', true)
+      commit('clearError')
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(
+          payload.email,
+          payload.password
+        )
+        .then(user => {
+          commit('setLoading', false)
+          const newUser = {
+            id: user.uid
+          };
+          commit('setUser', newUser)
+        })
+        .catch(error => {
+          commit('setLoading', false)
+          commit('setError', error)
+          console.log(error)
+        })
+    },
+    clearError ({ commit }) {
+      commit('clearError')
+    }
+  },
   autoSignIn ({ commit }, payload) {
     commit('setUser', {
       id: payload.uid
@@ -161,6 +190,9 @@ export const store = new Vuex.Store({
     },
     loadedSchedule (state) {
       return state.loadedSchedule
+    },
+    loadedProfile (state) {
+      return state.loadedProfile
     }
   },
   plugins: [vuexLocal.plugin]
