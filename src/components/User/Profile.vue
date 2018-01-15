@@ -6,7 +6,7 @@
 <div>
 
        <v-card-title>
-      Scores through 1/4/2018
+      Scores through 1/11/2018
       <v-spacer></v-spacer>
     </v-card-title>
 
@@ -21,8 +21,8 @@
         <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.bowler }}</td>
         <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.weeks * 3 }}</td>
         <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.average }}</td>
-        <td style = "width:75px padding:10px" class="text-xs-center">{{ Math.floor((220 - props.item.average) * .8) }}</td>
-        <td style = "width:75px padding:10px" class="text-xs-center">{{ props.item.phone }}</td>
+        <td style = "width:75px padding:10px" class="text-xs-center">{{ Math.floor((220 - props.item.average) * .9) }}</td>
+        <td style = "width:75px padding:10px" class="text-xs-center"><a :href="`tel:${props.item.phone}`">{{ props.item.phone }}</a></td>
         
       </template>
     </v-data-table>

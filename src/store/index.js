@@ -157,7 +157,7 @@ export const store = new Vuex.Store({
           commit('setLoading', false)
           const newUser = {
             id: user.uid
-          };
+          }
           commit('setUser', newUser)
         })
         .catch(error => {
